@@ -353,6 +353,8 @@ body[data-entry-type="docs"] /*ファイル*/#contentField38 {
 
 カスタムリンク・フィールドブロックの大枠を定義した下記の内容をコピペして保存
 
+**multiField v1 の場合**
+
 ```
 <mt:Ignore>VueCustomLink というコンポーネントのテンプレートを定義 = 「リンク」ボタンをクリックしたときに追加されるフィールドブロックのテンプレート</mt:Ignore>
 <script type="text/x-template" id="mf-component-customLink">
@@ -370,6 +372,30 @@ body[data-entry-type="docs"] /*ファイル*/#contentField38 {
 <mt:Ignore>type: 'customLink' のときに上記フィールドブロックが表示されるように MTAppjQuery に追加</mt:Ignore>
 <mt:SetVarBlock name="mtapp_mf_additional_fields" append="1">
     <template v-else-if="item.type === 'customLink'">
+        <VueCustomLink :item="item"></VueCustomLink>
+    </template>
+</mt:SetVarBlock>
+```
+
+**multiField v2 の場合**
+
+```
+<mt:Ignore>VueCustomLink というコンポーネントのテンプレートを定義 = 「リンク」ボタンをクリックしたときに追加されるフィールドブロックのテンプレート</mt:Ignore>
+<script type="text/x-template" id="mf-component-customLink">
+    <div>VueCustomLink</div>
+</script>
+
+<mt:Ignore>VueCustomLink というコンポーネントを定義（Vue.js）</mt:Ignore>
+<script>
+    Vue.component('VueCustomLink', {
+        props: { item: Object },
+        template: '#mf-component-customLink'
+    });
+</script>
+
+<mt:Ignore>type: 'customLink' のときに上記フィールドブロックが表示されるように MTAppjQuery に追加</mt:Ignore>
+<mt:SetVarBlock name="mtapp_mf_basic_fields_v2" append="1">
+    <template v-if="fieldBlocks[item.handle].type === 'customLink'">
         <VueCustomLink :item="item"></VueCustomLink>
     </template>
 </mt:SetVarBlock>
